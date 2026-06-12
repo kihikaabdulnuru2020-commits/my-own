@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<!-- SCHOOL E-VOTING SYSTEM - ENHANCED VERSION -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>SCHOOL E-VOTING SYSTEM</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root {
+  --primary:#6366f1;
+  --secondary:#8b5cf6;
+  --accent:#ec4899;
+  --success:#10b981;
+  --danger:#ef4444;
+  --warning:#f59e0b;
+  --bg:#0f172a;
+  --bg-light:#1e293b;
+  --panel:#1a1f35;
+  --text:#f8fafc;
+  --text-muted:#cbd5e1;
+  --border:#334155;
+  --hover:#2d3748;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui;
+  background:linear-gradient(135deg, #0f172a 0%, #1a1f35 50%, #0f1626 100%);
+  color:var(--text);
+  line-height:1.6;
+  min-height:100vh;
+}
+
+header{
+  padding:28px 24px;
+  background:linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  box-shadow:0 8px 32px rgba(99, 102, 241, 0.3);
+  border-bottom:3px solid var(--accent);
+}
+
+header h1{
+  margin:0;
+  font-size:32px;
+  font-weight:800;
+  color:white;
+  text-shadow:0 2px 4px rgba(0,0,0,0.2);
+  letter-spacing:-0.5px;
+}
+
+header p{
+  margin:6px 0 0 0;
+  color:rgba(255,255,255,0.9);
+  font-size:14px;
+  font-weight:500;
+}
+
+main{
+  max-width:1400px;
+  margin:28px auto;
+  padding:0 16px 40px;
+}
+
+.tabs{
+  display:flex;
+  gap:12px;
+  margin-bottom:28px;
+  border-bottom:2px solid var(--border);
+  flex-wrap:wrap;
+}
+
+.tab-btn{
+  padding:14px 24px;
+  border:none;
+  background:transparent;
+  color:var(--text-muted);
+  cursor:pointer;
+  font-size:15px;
+  font-weight:700;
+  border-bottom:4px solid transparent;
+  transition:all 0.3s ease;
+  position:relative;
+  top:2px;
+}
+
+.tab-btn:hover{
+  color:var(--primary);
+}
+
+.tab-btn.active{
+  color:var(--accent);
+  border-bottom-color:var(--accent);
+  background:rgba(236, 72, 153, 0.05);
+}
+
+.tab-content{
+  display:none;
+  animation:fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.tab-content.active{
+  display:block;
+}
+
+.grid{
+  display:grid;
+  gap:24px;
+}
+
+@media(min-width:1000px){
+  .grid{grid-template-columns:1fr 1fr}
+}
+
+.card{
+  background:linear-gradient(135deg, var(--panel) 0%, #212738 100%);
+  border:2px solid var(--border);
+  border-radius:16px;
+  padding:24px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.3);
+  transition:all 0.3s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:3px;
+  background:linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+}
+
+.card:hover{
+  border-color:var(--primary);
+  box-shadow:0 12px 32px rgba(99, 102, 241, 0.2);
+  transform:translateY(-2px);
+}
+
+.card h2{
+  margin:0 0 18px 0;
+  font-size:20px;
+  font-weight:800;
+  color:var(--text);
+  border-bottom:2px solid var(--primary);
+  padding-bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.card h2::before{
+  display:inline-block;
+  width:5px;
+  height:24px;
+  background:linear-gradient(180deg, var(--primary), var(--accent));
+  border-radius:3px;
+}
+
+.field{
+  margin-bottom:18px;
+}
+
+label{
+  font-size:12px;
+  color:var(--primary);
+  font-weight:800;
+  display:block;
+  margin-bottom:8px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+input, select{
+  width:100%;
+  padding:12px 14px;
+  border-radius:10px;
+  border:2px solid var(--border);
+  background:var(--bg-light);
+  color:var(--text);
+  font-size:14px;
+  font-weight:500;
+  transition:all 0.2s ease;
+}
+
+input:focus, select:focus{
+  outline:none;
+  border-color:var(--primary);
+  background:rgba(99, 102, 241, 0.05);
+  box-shadow:0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+input::placeholder{
+  color:var(--text-muted);
+}
+
+.btn{
+  padding:12px 20px;
+  border-radius:10px;
+  border:2px solid transparent;
+  background:var(--bg-light);
+  color:var(--text);
+  cursor:pointer;
+  font-weight:700;
+  font-size:14px;
+  transition:all 0.2s ease;
+  display:inline-block;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+
+.btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 16px rgba(0,0,0,0.3);
+}
+
+.btn:active{
+  transform:translateY(-1px);
+}
+
+.btn:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.btn.primary{
+  background:linear-gradient(135deg, var(--primary), var(--secondary));
+  color:white;
+  border-color:var(--primary);
+}
+
+.btn.primary:hover{
+  box-shadow:0 8px 20px rgba(99, 102, 241, 0.4);
+}
+
+.btn.danger{
+  background:linear-gradient(135deg, var(--danger), #dc2626);
+  color:white;
+  border-color:var(--danger);
+}
+
+.btn.danger:hover{
+  box-shadow:0 8px 20px rgba(239, 68, 68, 0.4);
+}
+
+.btn.warning{
+  background:linear-gradient(135deg, var(--warning), #d97706);
+  color:white;
+  border-color:var(--warning);
+}
+
+.btn.warning:hover{
+  box-shadow:0 8px 20px rgba(245, 158, 11, 0.4);
+}
+
+.btn.success{
+  background:linear-gradient(135deg, var(--success), #059669);
+  color:white;
+  border-color:var(--success);
+}
+
+.btn.success:hover{
+  box-shadow:0 8px 20px rgba(16, 185, 129, 0.4);
+}
+
+.row{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.list{
+  display:grid;
+  gap:12px;
+}
+
+.item{
+  background:var(--bg-light);
+  border:2px solid var(--border);
+  border-radius:10px;
+  padding:14px;
+  transition:all 0.2s ease;
+}
+
+.item:hover{
+  border-color:var(--primary);
+  background:rgba(99, 102, 241, 0.05);
+}
+
+.candidate-item{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px;
+  border-radius:10px;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  border:2px solid var(--border);
+}
+
+.candidate-item input[type="radio"]{
+  width:auto;
+  cursor:pointer;
+  margin:0;
+  accent-color:var(--primary);
+}
+
+.candidate-item:hover{
+  background:rgba(99, 102, 241, 0.05);
+  border-color:var(--primary);
+}
+
+.candidate-item input[type="radio"]:checked ~ div .candidate-name{
+  color:var(--accent);
+  font-weight:800;
+}
+
+.candidate-name{
+  flex:1;
+  font-weight:700;
+  font-size:15px;
+}
+
+.candidate-class{
+  font-size:12px;
+  color:var(--text-muted);
+  background:rgba(99, 102, 241, 0.1);
+  padding:4px 8px;
+  border-radius:4px;
+  font-weight:600;
+  margin-top:4px;
+  display:inline-block;
+}
+
+.muted{color:var(--text-muted);font-size:13px}
+.success{color:var(--success)}
+.error{color:var(--danger)}
+.warning{color:var(--warning)}
+.mono{font-family:'Courier New', monospace}
+
+.alert{
+  padding:16px 18px;
+  border-radius:10px;
+  margin-bottom:16px;
+  font-size:14px;
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  font-weight:600;
+  border-left:4px solid;
+}
+
+.alert.success{
+  color:#10b981;
+  background:rgba(16, 185, 129, 0.1);
+  border-left-color:var(--success);
+}
+
+.alert.error{
+  color:#ef4444;
+  background:rgba(239, 68, 68, 0.1);
+  border-left-color:var(--danger);
+}
+
+.alert.warning{
+  color:#f59e0b;
+  background:rgba(245, 158, 11, 0.1);
+  border-left-color:var(--warning);
+}
+
+.alert.info{
+  color:var(--primary);
+  background:rgba(99, 102, 241, 0.1);
+  border-left-color:var(--primary);
+}
+
+.divider{
+  border:none;
+  border-top:2px dashed var(--border);
+  margin:24px 0;
+}
+
+.credential-box{
+  background:linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(99, 102, 241, 0.1));
+  border:2px solid var(--success);
+  border-radius:10px;
+  padding:16px;
+  margin:18px 0;
+  font-family:monospace;
+  word-break:break-all;
+}
+
+.credential-box .label{
+  color:var(--success);
+  font-size:11px;
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:8px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+.credential-box .value{
+  color:var(--success);
+  font-weight:800;
+  font-size:18px;
+  letter-spacing:1px;
+}
+
+.tracker-box{
+  background:linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+  border:2px solid var(--primary);
+  border-radius:10px;
+  padding:16px;
+  margin:18px 0;
+  font-family:monospace;
+  word-break:break-all;
+}
+
+.tracker-box .label{
+  color:var(--primary);
+  font-size:11px;
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:8px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+.tracker-box .value{
+  color:var(--primary);
+  font-weight:800;
+  font-size:16px;
+}
+
+.admin-lock{
+  background:linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1));
+  border:2px solid var(--danger);
+  border-radius:10px;
+  padding:24px;
+  margin-bottom:16px;
+  text-align:center;
+}
+
+.admin-lock .lock-icon{
+  font-size:40px;
+  margin-bottom:12px;
+}
+
+.hidden{
+  display:none;
+}
+
+.results-grid{
+  display:grid;
+  gap:14px;
+  margin-top:16px;
+}
+
+.result-item{
+  background:linear-gradient(135deg, var(--bg-light), #212738);
+  border:2px solid var(--border);
+  border-radius:10px;
+  padding:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  transition:all 0.2s ease;
+}
+
+.result-item:hover{
+  border-color:var(--primary);
+  box-shadow:0 6px 16px rgba(99, 102, 241, 0.15);
+}
+
+.result-name{
+  font-weight:800;
+  font-size:16px;
+}
+
+.result-count{
+  background:linear-gradient(135deg, var(--primary), var(--secondary));
+  color:white;
+  padding:10px 18px;
+  border-radius:8px;
+  font-weight:800;
+  font-size:20px;
+  min-width:60px;
+  text-align:center;
+  box-shadow:0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.runner-up-badge{
+  background:linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(236, 72, 153, 0.2));
+  border:2px solid var(--warning);
+  border-radius:8px;
+  padding:12px 14px;
+  margin-top:8px;
+  font-weight:700;
+  color:var(--warning);
+  text-align:center;
+}
+
+.runner-up-count{
+  font-size:18px;
+  color:var(--warning);
+  font-weight:800;
+}
+
+.stats-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+  padding-bottom:16px;
+  border-bottom:2px solid var(--border);
+}
+
+.total-votes{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+}
+
+.total-votes-number{
+  font-size:40px;
+  font-weight:800;
+  background:linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.live-indicator{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  color:var(--success);
+  font-weight:700;
+  background:rgba(16, 185, 129, 0.1);
+  padding:8px 14px;
+  border-radius:8px;
+  border:2px solid var(--success);
+}
+
+.live-indicator::before{
+  content:'';
+  display:inline-block;
+  width:10px;
+  height:10px;
+  background:var(--success);
+  border-radius:50%;
+  animation:pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse{
+  0%, 100%{opacity:1;transform:scale(1)}
+  50%{opacity:0.6;transform:scale(1.2)}
+}
+
+.candidate-stat{
+  background:linear-gradient(135deg, var(--bg-light), #212738);
+  border:2px solid var(--border);
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:14px;
+  transition:all 0.3s ease;
+  animation:slideIn 0.4s ease;
+}
+
+@keyframes slideIn{
+  from{opacity:0;transform:translateX(-10px)}
+  to{opacity:1;transform:translateX(0)}
+}
+
+.candidate-stat:hover{
+  border-color:var(--primary);
+  background:rgba(99, 102, 241, 0.05);
+  box-shadow:0 8px 20px rgba(99, 102, 241, 0.15);
+  transform:translateX(4px);
+}
+
+.stat-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.stat-name{
+  font-weight:800;
+  font-size:15px;
+  color:var(--text);
+}
+
+.stat-count{
+  font-size:24px;
+  font-weight:800;
+  background:linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.progress-bar-container{
+  background:var(--bg-light);
+  border-radius:8px;
+  height:28px;
+  overflow:hidden;
+  border:2px solid var(--border);
+  margin:10px 0;
+}
+
+.progress-bar{
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  padding-right:10px;
+  font-size:12px;
+  font-weight:800;
+  color:white;
+  transition:width 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+  min-width:35px;
+  background:linear-gradient(90deg, var(--primary), var(--secondary));
+  position:relative;
+  overflow:hidden;
+}
+
+.progress-bar::after{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation:shimmer 2s infinite;
+}
+
+@keyframes shimmer{
+  0%{transform:translateX(-100%)}
+  100%{transform:translateX(100%)}
+}
+
+.percentage{
+  font-size:13px;
+  color:var(--primary);
+  font-weight:700;
+  text-align:right;
+}
+
+.stat-meta{
+  background:linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+  padding:12px 14px;
+  border-radius:8px;
+  border-left:4px solid var(--primary);
+  font-weight:700;
+}
+
+.post-section{
+  margin-bottom:28px;
+  background:linear-gradient(135deg, var(--panel) 0%, #212738 100%);
+  border:2px solid var(--border);
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.3);
+}
+
+.post-title{
+  font-size:18px;
+  font-weight:800;
+  color:var(--accent);
+  margin:0 0 14px 0;
+  padding-bottom:10px;
+  border-bottom:2px solid var(--primary);
+}
+
+.position-stats{
+  background:linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+  border:2px solid var(--primary);
+  border-radius:10px;
+  padding:16px;
+  margin-bottom:14px;
+}
+
+.position-stats .stat-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.position-stats .stat-name{
+  font-weight:700;
+  font-size:14px;
+}
+
+.refresh-indicator{
+  display:inline-block;
+  width:10px;
+  height:10px;
+  background:var(--success);
+  border-radius:50%;
+  animation:pulse 1s ease-in-out infinite;
+  margin-left:8px;
+  opacity:0.3;
+}
+
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+  header h1{font-size:28px}
+  .tabs{gap:8px}
+  .tab-btn{padding:12px 16px;font-size:13px}
+}
+
+@media(max-width:600px){
+  header{padding:20px 16px}
+  main{padding:0 12px 32px}
+  .card{padding:18px}
+  .btn{padding:10px 16px;font-size:12px}
+  .row{gap:10px}
+  .stats-header{flex-direction:column;align-items:flex-start;gap:10px}
+  .total-votes-number{font-size:32px}
+  .candidate-item{flex-direction:column;align-items:flex-start}
+  .candidate-class{display:inline-block}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🗳️ SCHOOL E-VOTING SYSTEM</h1>
+  <p>STUDENT TRUST (DEMOCRACY IN YOUR CITIZEN)</p>
+</header>
+
+<main>
+
+<!-- TAB NAVIGATION -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab(event, &#39;student&#39;)">🗳️ Cast Vote</button>
+  <button class="tab-btn" onclick="switchTab(event, &#39;board&#39;)">📊 Live Board</button>
+  <button class="tab-btn" onclick="switchTab(event, &#39;admin&#39;)">🔐 Admin</button>
+</div>
+
+<!-- STUDENT TAB -->
+<div id="student" class="tab-content active">
+  <div class="grid">
+    <section class="card">
+      <h2>Your Voting Ballot</h2>
+      
+      <div class="field">
+        <label for="studentId">Student ID</label>
+        <input id="studentId" type="text" placeholder="Enter Student ID" pattern="[A-Z0-9]{1,20}" title="Student ID must contain only uppercase letters and numbers">
+      </div>
+
+      <button class="btn primary" id="issueBtn" style="width:100%">Get Credential</button>
+      
+      <div id="eligibilityMsg" style="display: block;"><div class="alert success">✓ Credential issued</div></div>
+
+      <div id="ballot" class="">
+        <div class="credential-box">
+          <span class="label">✓ Your Credential</span>
+          <span class="value" id="cred">33HJWY47</span>
+        </div>
+
+        <h3 style="margin:16px 0 14px 0;font-size:16px;font-weight:800;color:var(--text)">Select Your Candidates</h3>
+        
+        <!-- HEAD GIRL POSITION (S5) -->
+        <div class="post-section">
+          <div class="post-title">👑 HEAD GIRL (S5)</div>
+          <div class="list">
+            <label class="item candidate-item">
+              <input type="radio" name="HEAD_GIRL" value="Aber Prisca">
+              <div><span class="candidate-name">Aber Prisca</span><span class="candidate-class">S5</span></div>
+            </label>
+            <label class="item candidate-item">
+              <input type="radio" name="HEAD_GIRL" value="Joanita Ameri">
+              <div><span class="candidate-name">Joanita Ameri</span><span class="candidate-class">S5</span></div>
+            </label>
+            <label class="item candidate-item">
+              <input type="radio" name="HEAD_GIRL" value="Tracy Teddy">
+              <div><span class="candidate-name">Tracy Teddy</span><span class="candidate-class">S5</span></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- HEAD BOY POSITION (S5) -->
+        <div class="post-section">
+          <div class="post-title">👑 HEAD BOY (S5)</div>
+          <div class="list">
+            <label class="item candidate-item">
+              <input type="radio" name="HEAD_BOY" value="John Kamanda">
+              <div><span class="candidate-name">John Kamanda</span><span class="candidate-class">S5</span></div>
+            </label>
+            <label class="item candidate-item">
+              <input type="radio" name="HEAD_BOY" value="Peter Okello">
+              <div><span class="candidate-name">Peter Okello</span><span class="candidate-class">S5</span></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- ASSISTANT HEAD GIRL POSITION (S4) -->
+        <div class="post-section">
+          <div class="post-title">🌟 ASSISTANT HEAD GIRL (S4)</div>
+          <div class="list">
+            <label class="item candidate-item">
+              <input type="radio" name="ASS_HEAD_GIRL" value="Juan Scovia">
+              <div><span class="candidate-name">Juan Scovia</span><span class="candidate-class">S4</span></div>
+            </label>
+            <label class="item candidate-item">
+              <input type="radio" name="ASS_HEAD_GIRL" value="Mazira Jane">
+              <div><span class="candidate-name">Mazira Jane</span><span class="candidate-class">S4</span></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- UNSA PRESIDENT POSITION (S5) -->
+        <div class="post-section">
+          <div class="post-title">🏆 UNSA PRESIDENT (S5)</div>
+          <div class="list">
+            <label class="item candidate-item">
+              <input type="radio" name="UNSA_PRESIDENT" value="Pamela Grace">
+              <div><span class="candidate-name">Pamela Grace</span><span class="candidate-class">S5</span></div>
+            </label>
+            <label class="item candidate-item">
+              <input type="radio" name="UNSA_PRESIDENT" value="Agnes Joyce">
+              <div><span class="candidate-name">Agnes Joyce</span><span class="candidate-class">S5</span></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- UNSA SPEAKER POSITION (S3) -->
+        <div class="post-section">
+          <div class="post-title">🎤 UNSA SPEAKER (S3)</div>
+          <div class="list">
+            <label class="item candidate-item">
+              <input type="radio" name="UNSA_SPEAKER" value="Morio Lydia">
+              <div><span class="candidate-name">Morio Lydia</span><span class="candidate-class">S3</span></div>
+            </label>
+            <label class="item candidate-item">
+              <input type="radio" name="UNSA_SPEAKER" value="Drabaa Sphie">
+              <div><span class="candidate-name">Drabaa Sphie</span><span class="candidate-class">S3</span></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- VICE UNSA SPEAKER POSITION (S2) -->
+        <div class="post-section">
+          <div class="post-title">🎤 VICE UNSA SPEAKER (S2)</div>
+          <div class="list">
+            <label class="item candidate-item">
+              <input type="radio" name="VICE_UNSA_SPEAKER" value="Anna Maria">
+              <div><span class="candidate-name">Anna Maria</span><span class="candidate-class">S2</span></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- HEALTH PREFECT POSITION (S3) -->
+        <div class="post-section">
+          <div class="post-title">⚕️ HEALTH PREFECT (S3)</div>
+          <div class="list">
+            <label class="item candidate-item">
+              <input type="radio" name="HEALTH_PREFECT" value="Muraa Brenda">
+              <div><span class="candidate-name">Muraa Brenda</span><span class="candidate-class">S3</span></div>
+            </label>
+            <label class="item candidate-item">
+              <input type="radio" name="HEALTH_PREFECT" value="Bakoru Juliet">
+              <div><span class="candidate-name">Bakoru Juliet</span><span class="candidate-class">S3</span></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- VICE HEALTH PREFECT POSITION (S2) -->
+        <div class="post-section">
+          <div class="post-title">⚕️ VICE HEALTH PREFECT (S2)</div>
+          <div class="list">
+            <label class="item candidate-item">
+              <input type="radio" name="VICE_HEALTH_PREFECT" value="Atimaku Grace">
+              <div><span class="candidate-name">Atimaku Grace</span><span class="candidate-class">S2</span></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- EDUCATION AND DISCIPLINE POSITION (S3) -->
+        <div class="post-section">
+          <div class="post-title">📚 EDUCATION & DISCIPLINE (S3)</div>
+          <div class="list">
+            <label class="item candidate-item">
+              <input type="radio" name="EDUCATION_DISCIPLINE" value="Andrea Atonia">
+              <div><span class="candidate-name">Andrea Atonia</span><span class="candidate-class">S3</span></div>
+            </label>
+          </div>
+        </div>
+
+        <!-- VICE EDUCATION AND DISCIPLINE POSITION (S1) -->
+        <div class="post-section">
+          <div class="post-title">📚 VICE EDUCATION & DISCIPLINE (S1)</div>
+          <div class="list">
+            <label class="item candidate-item">
+              <input type="radio" name="VICE_EDUCATION_DISCIPLINE" value="Martha Mukisa">
+              <div><span class="candidate-name">Martha Mukisa</span><span class="candidate-class">S1</span></div>
+            </label>
+          </div>
+        </div>
+
+        <button class="btn primary" id="castBtn" style="margin-top:18px;width:100%">Cast Vote</button>
+        
+        <div id="castMsg"></div>
+
+        <div id="receipt" class="hidden">
+          <div class="tracker-box">
+            <span class="label">✓ Vote Tracker</span>
+            <span class="value" id="tracker"></span>
+          </div>
+          <p class="muted" style="text-align:center;margin-top:12px">✓ Save this ID to verify your vote anytime</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Election Status</h2>
+      <div id="statusBox">
+        <div class="alert success">🟢 ELECTION OPEN</div>
+        <p class="muted" style="margin:14px 0 0 0;font-size:14px;font-weight:700">
+          Total Votes: <span style="color:var(--primary)">0</span>
+        </p>
+      </div>
+      <p class="muted" style="margin:16px 0 0 0;font-size:13px">📍 Real-time election monitoring</p>
+    </section>
+  </div>
+</div>
+
+<!-- PUBLIC BOARD TAB -->
+<div id="board" class="tab-content">
+  <div class="grid">
+    <section class="card">
+      <h2>Vote Verification</h2>
+      <p class="muted">Enter your tracker ID to verify your vote</p>
+      <div class="field" style="margin-top:14px">
+        <label for="trackerSearch">Search Tracker ID</label>
+        <input id="trackerSearch" type="text" placeholder="Paste your tracker ID here">
+        <button class="btn primary" id="searchBtn" style="margin-top:10px;width:100%">Verify</button>
+      </div>
+      <div id="searchResult"></div>
+      <hr class="divider">
+      <h3 style="margin:0 0 14px 0;font-size:15px;font-weight:800">All Trackers</h3>
+      <div id="boardList" class="list"><div class="muted">No votes yet</div></div>
+    </section>
+
+    <section class="card">
+      <h2>Live Statistics <span class="refresh-indicator" id="refreshInd"></span></h2>
+      <div id="stats">
+        <div class="stats-header">
+          <div class="total-votes">
+            <span class="total-votes-number" id="totalVotesCount">0</span>
+            <span style="color:var(--text-muted);font-size:14px;font-weight:700">Votes Cast</span>
+          </div>
+          <div class="live-indicator">● LIVE</div>
+        </div>
+        <div id="statsContent"><!-- Stats will be populated here --></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ADMIN TAB (SECURE) -->
+<div id="admin" class="tab-content">
+  <section class="card">
+    <h2>Admin Control</h2>
+    
+    <div class="admin-lock hidden" id="adminLock">
+      <div class="lock-icon">🔐</div>
+      <p style="margin:10px 0;font-weight:800;color:var(--text)">Admin Authentication</p>
+      <p class="muted" style="margin:6px 0 18px 0">Enter password to unlock</p>
+      <div class="field">
+        <label for="adminPass">Password</label>
+        <input id="adminPass" type="password" placeholder="Enter admin password" autocomplete="off">
+      </div>
+      <button class="btn warning" id="unlockBtn" style="width:100%">Unlock</button>
+      <div id="authMsg" style="display: block;"><div class="alert undefined"></div></div>
+    </div>
+
+    <div id="adminPanel" class="">
+      <div class="alert success">✓ Admin Panel Unlocked</div>
+      <div class="grid" style="grid-template-columns:1fr">
+        <div>
+          <h3 style="margin:0 0 14px 0;font-size:15px;font-weight:800">Controls</h3>
+          <div class="row">
+            <button class="btn warning" id="closeBtn" style="flex:1">Close Election</button>
+            <button class="btn primary" id="tallyBtn" style="flex:1">Tally Results</button>
+          </div>
+          <p id="adminMsg" class="muted" style="margin-top:12px"></p>
+        </div>
+
+        <hr class="divider">
+
+        <div id="resultsSection" class="hidden">
+          <h3 style="margin:0 0 14px 0;font-size:15px;font-weight:800">Final Results with First Runner-Up</h3>
+          <div id="results" class="results-grid"></div>
+        </div>
+
+        <hr class="divider">
+
+        <div>
+          <h3 style="margin:0 0 14px 0;font-size:15px;font-weight:800">System</h3>
+          <div class="row">
+            <button class="btn" id="auditBtn" style="flex:1">Audit Log</button>
+            <button class="btn danger" id="resetBtn" style="flex:1">Reset</button>
+          </div>
+        </div>
+
+        <div id="auditLog" class="hidden">
+          <hr class="divider">
+          <h3 style="margin:0 0 14px 0;font-size:15px;font-weight:800">Audit Trail</h3>
+          <div id="auditContent" class="list"></div>
+        </div>
+      </div>
+
+      <button class="btn danger" id="lockBtn" style="margin-top:20px;width:100%">Lock</button>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<script>
+const ADMIN_PASSWORD = "JORDAN";
+const positions = {
+  HEAD_GIRL: ["Aber Prisca", "Joanita Ameri", "Tracy Teddy"],
+  HEAD_BOY: ["John Kamanda", "Peter Okello"],
+  ASS_HEAD_GIRL: ["Juan Scovia", "Mazira Jane"],
+  UNSA_PRESIDENT: ["Pamela Grace", "Agnes Joyce"],
+  UNSA_SPEAKER: ["Morio Lydia", "Drabaa Sphie"],
+  VICE_UNSA_SPEAKER: ["Anna Maria"],
+  HEALTH_PREFECT: ["Muraa Brenda", "Bakoru Juliet"],
+  VICE_HEALTH_PREFECT: ["Atimaku Grace"],
+  EDUCATION_DISCIPLINE: ["Andrea Atonia"],
+  VICE_EDUCATION_DISCIPLINE: ["Martha Mukisa"]
+};
+
+const positionLabels = {
+  HEAD_GIRL: "👑 HEAD GIRL (S5)",
+  HEAD_BOY: "👑 HEAD BOY (S5)",
+  ASS_HEAD_GIRL: "🌟 ASSISTANT HEAD GIRL (S4)",
+  UNSA_PRESIDENT: "🏆 UNSA PRESIDENT (S5)",
+  UNSA_SPEAKER: "🎤 UNSA SPEAKER (S3)",
+  VICE_UNSA_SPEAKER: "🎤 VICE UNSA SPEAKER (S2)",
+  HEALTH_PREFECT: "⚕️ HEALTH PREFECT (S3)",
+  VICE_HEALTH_PREFECT: "⚕️ VICE HEALTH PREFECT (S2)",
+  EDUCATION_DISCIPLINE: "📚 EDUCATION & DISCIPLINE (S3)",
+  VICE_EDUCATION_DISCIPLINE: "📚 VICE EDUCATION & DISCIPLINE (S1)"
+};
+
+const state = {
+  electionOpen: true,
+  registry: new Set(["STUDENT001", "STUDENT002", "STUDENT003", "STUDENT004", "STUDENT005"]),
+  issued: new Map(),
+  spent: new Set(),
+  board: [],
+  auditLog: []
+};
+
+const el = {
+  studentId: document.getElementById("studentId"),
+  issueBtn: document.getElementById("issueBtn"),
+  eligibilityMsg: document.getElementById("eligibilityMsg"),
+  ballot: document.getElementById("ballot"),
+  cred: document.getElementById("cred"),
+  castBtn: document.getElementById("castBtn"),
+  castMsg: document.getElementById("castMsg"),
+  receipt: document.getElementById("receipt"),
+  tracker: document.getElementById("tracker"),
+  boardList: document.getElementById("boardList"),
+  trackerSearch: document.getElementById("trackerSearch"),
+  searchBtn: document.getElementById("searchBtn"),
+  searchResult: document.getElementById("searchResult"),
+  statsContent: document.getElementById("statsContent"),
+  totalVotesCount: document.getElementById("totalVotesCount"),
+  adminPass: document.getElementById("adminPass"),
+  unlockBtn: document.getElementById("unlockBtn"),
+  authMsg: document.getElementById("authMsg"),
+  adminPanel: document.getElementById("adminPanel"),
+  adminLock: document.getElementById("adminLock"),
+  closeBtn: document.getElementById("closeBtn"),
+  tallyBtn: document.getElementById("tallyBtn"),
+  adminMsg: document.getElementById("adminMsg"),
+  resultsSection: document.getElementById("resultsSection"),
+  results: document.getElementById("results"),
+  lockBtn: document.getElementById("lockBtn"),
+  auditBtn: document.getElementById("auditBtn"),
+  resetBtn: document.getElementById("resetBtn"),
+  auditLog: document.getElementById("auditLog"),
+  auditContent: document.getElementById("auditContent"),
+  statusBox: document.getElementById("statusBox"),
+  refreshInd: document.getElementById("refreshInd")
+};
+
+function token() {
+  return Math.random().toString(36).substring(2, 10).toUpperCase();
+}
+
+function switchTab(event, tabName) {
+  document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+  document.getElementById(tabName).classList.add("active");
+  event.target.classList.add("active");
+  if (tabName === "board") updateStats();
+}
+
+function showAlert(elementId, message, type) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  el.innerHTML = `<div class="alert ${type}">${message}</div>`;
+  el.style.display = "block";
+}
+
+function logAudit(action, details) {
+  const timestamp = new Date().toLocaleString();
+  state.auditLog.push({ timestamp, action, details });
+}
+
+function updateStatusBox() {
+  const statusText = state.electionOpen ? "🟢 ELECTION OPEN" : "🔴 ELECTION CLOSED";
+  el.statusBox.innerHTML = `
+    <div class="alert ${state.electionOpen ? 'success' : 'error'}">${statusText}</div>
+    <p class="muted" style="margin:14px 0 0 0;font-size:14px;font-weight:700">
+      Total Votes: <span style="color:var(--primary)">${state.board.length}</span>
+    </p>
+  `;
+}
+
+el.issueBtn.onclick = () => {
+  const id = el.studentId.value.trim().toUpperCase();
+  el.studentId.value = id;
+  if (!id) { showAlert("eligibilityMsg", "❌ Student ID cannot be empty", "error"); return; }
+  if (!state.registry.has(id)) { showAlert("eligibilityMsg", "❌ Student ID not in registry", "error"); logAudit("FAILED_ISSUE", `Invalid student ID: ${id}`); return; }
+  if (!state.electionOpen) { showAlert("eligibilityMsg", "❌ Election is closed", "error"); return; }
+  if (state.issued.has(id) && state.spent.has(state.issued.get(id))) { showAlert("eligibilityMsg", "❌ Already voted", "error"); logAudit("DUPLICATE_VOTE_ATTEMPT", `Student ${id} attempted to vote twice`); return; }
+  let c = state.issued.get(id) || token();
+  state.issued.set(id, c);
+  el.cred.textContent = c;
+  el.ballot.classList.remove("hidden");
+  showAlert("eligibilityMsg", "✓ Credential issued", "success");
+  logAudit("CREDENTIAL_ISSUED", `Student ${id}`);
+};
+
+el.castBtn.onclick = () => {
+  const id = el.studentId.value.trim().toUpperCase();
+  const c = state.issued.get(id);
+  if (!c) { showAlert("castMsg", "❌ Get credential first", "error"); return; }
+  if (state.spent.has(c)) { showAlert("castMsg", "❌ Credential already used", "error"); logAudit("DUPLICATE_CREDENTIAL", `Credential ${c} reuse attempt`); return; }
+  if (!state.electionOpen) { showAlert("castMsg", "❌ Election closed", "error"); return; }
+  const votes = {};
+  let allPositionsFilled = true;
+  Object.keys(positions).forEach(position => {
+    const choice = document.querySelector(`input[name='${position}']:checked`)?.value;
+    if (!choice) allPositionsFilled = false;
+    votes[position] = choice;
+  });
+  if (!allPositionsFilled) { showAlert("castMsg", "❌ Select candidates for all positions", "error"); return; }
+  const tracker = token() + Date.now();
+  state.board.push({ votes, tracker });
+  state.spent.add(c);
+  el.tracker.textContent = tracker;
+  el.receipt.classList.remove("hidden");
+  showAlert("castMsg", "✓ Vote cast successfully!", "success");
+  logAudit("VOTE_CAST", `All positions voted`);
+  refreshVotersBoard();
+  updateStatusBox();
+};
+
+function refreshVotersBoard() {
+  renderBoard();
+  updateStats();
+  el.refreshInd.style.opacity = "1";
+  setTimeout(() => { el.refreshInd.style.opacity = "0.3"; }, 500);
+}
+
+el.searchBtn.onclick = () => {
+  const tracker = el.trackerSearch.value.trim();
+  if (!tracker) { showAlert("searchResult", "❌ Enter tracker ID", "error"); return; }
+  const vote = state.board.find(b => b.tracker === tracker);
+  if (vote) {
+    let voteDetails = "✓ Found! Votes:<br>";
+    Object.keys(vote.votes).forEach(position => {
+      voteDetails += `<strong>${positionLabels[position]}:</strong> ${vote.votes[position]}<br>`;
+    });
+    showAlert("searchResult", voteDetails, "success");
+  } else {
+    showAlert("searchResult", "❌ Tracker not found", "error");
+  }
+};
+
+function renderBoard() {
+  el.boardList.innerHTML = "";
+  if (state.board.length === 0) { el.boardList.innerHTML = '<div class="muted">No votes yet</div>'; return; }
+  state.board.forEach(b => {
+    el.boardList.innerHTML += `<div class="item mono" style="word-break:break-all;font-size:12px;font-weight:600">${b.tracker}</div>`;
+  });
+}
+
+function updateStats() {
+  const totalVotes = state.board.length;
+  el.totalVotesCount.textContent = totalVotes;
+  let html = `
+    <div class="stats-header">
+      <div class="total-votes">
+        <span class="total-votes-number">${totalVotes}</span>
+        <span style="color:var(--text-muted);font-size:14px;font-weight:700">Votes Cast</span>
+      </div>
+      <div class="live-indicator">● LIVE</div>
+    </div>
+  `;
+  Object.keys(positions).forEach(position => {
+    const candidates = positions[position];
+    const count = {};
+    candidates.forEach(c => count[c] = 0);
+    state.board.forEach(b => { if (b.votes && b.votes[position]) count[b.votes[position]]++; });
+    const maxVotes = Math.max(...candidates.map(c => count[c])) || 1;
+    const leadingCandidate = candidates.find(c => count[c] === maxVotes) || "N/A";
+    html += `<div class="post-section" style="margin-top:16px"><div class="post-title">${positionLabels[position]}</div>`;
+    candidates.forEach(candidate => {
+      const votes = count[candidate];
+      const percentage = totalVotes > 0 ? ((votes / totalVotes) * 100).toFixed(1) : 0;
+      const barWidth = totalVotes > 0 ? (votes / maxVotes) * 100 : 0;
+      html += `
+        <div class="candidate-stat">
+          <div class="stat-row"><div class="stat-name">${candidate}</div><div class="stat-count">${votes}</div></div>
+          <div class="progress-bar-container"><div class="progress-bar" style="width:${barWidth}%">${percentage}%</div></div>
+          <div class="percentage">${percentage}% of total votes</div>
+        </div>
+      `;
+    });
+    html += `<div class="position-stats"><div class="stat-row"><div class="stat-name">🏆 Leading:</div><div class="stat-name" style="color:var(--accent)">${leadingCandidate}</div></div></div></div>`;
+  });
+  html += `<div style="margin-top:20px;padding-top:16px;border-top:2px dashed var(--border)"><div class="stat-meta">🕐 Updated: ${new Date().toLocaleTimeString()}</div></div>`;
+  el.statsContent.innerHTML = html;
+}
+
+el.unlockBtn.onclick = () => {
+  const password = el.adminPass.value;
+  if (!password) { showAlert("authMsg", "❌ Enter password", "error"); return; }
+  if (password === ADMIN_PASSWORD) {
+    el.adminLock.classList.add("hidden");
+    el.adminPanel.classList.remove("hidden");
+    showAlert("authMsg", "");
+    logAudit("ADMIN_LOGIN", "Admin panel accessed");
+  } else {
+    showAlert("authMsg", "❌ Wrong password", "error");
+    logAudit("FAILED_LOGIN", "Incorrect admin password");
+  }
+};
+
+el.lockBtn.onclick = () => {
+  el.adminPanel.classList.add("hidden");
+  el.adminLock.classList.remove("hidden");
+  el.adminPass.value = "";
+  el.resultsSection.classList.add("hidden");
+  showAlert("authMsg", "");
+  logAudit("ADMIN_LOGOUT", "Admin panel locked");
+};
+
+el.closeBtn.onclick = () => {
+  if (state.electionOpen) {
+    state.electionOpen = false;
+    showAlert("adminMsg", "✓ Election closed", "success");
+    logAudit("ELECTION_CLOSED", "Admin closed the election");
+    updateStatusBox();
+  } else {
+    showAlert("adminMsg", "⚠ Already closed", "warning");
+  }
+};
+
+el.tallyBtn.onclick = () => {
+  if (state.electionOpen) { showAlert("adminMsg", "❌ Close election first", "error"); return; }
+  el.results.innerHTML = "";
+  Object.keys(positions).forEach(position => {
+    const candidates = positions[position];
+    const count = {};
+    candidates.forEach(c => count[c] = 0);
+    state.board.forEach(b => { if (b.votes && b.votes[position]) count[b.votes[position]]++; });
+    const sortedCandidates = candidates.sort((a, b) => count[b] - count[a]);
+    const maxVotes = sortedCandidates[0] ? count[sortedCandidates[0]] : 0;
+    const winner = sortedCandidates[0] || "N/A";
+    const runnerUp = sortedCandidates[1] || null;
+    const runnerUpVotes = runnerUp ? count[runnerUp] : 0;
+    el.results.innerHTML += `<div style="background:linear-gradient(135deg, var(--panel) 0%, #212738 100%);border:2px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px"><div class="post-title">${positionLabels[position]}</div><div style="margin-top:12px">`;
+    sortedCandidates.forEach((candidate, index) => {
+      const votes = count[candidate];
+      el.results.innerHTML += `<div class="result-item" style="${index === 0 ? 'border-color:var(--success);box-shadow:0 0 12px rgba(16, 185, 129, 0.3)' : ''}"><span class="result-name">${index === 0 ? '🥇 ' : ''}${candidate}</span><span class="result-count">${votes}</span></div>`;
+    });
+    if (runnerUp) {
+      el.results.innerHTML += `<div class="runner-up-badge"><div style="display:flex;justify-content:space-between;align-items:center"><span>🥈 First Runner-Up: ${runnerUp}</span><span class="runner-up-count">${runnerUpVotes}</span></div></div>`;
+    }
+    el.results.innerHTML += `<div class="position-stats" style="margin-top:12px"><div class="stat-row"><div class="stat-name">🏆 WINNER:</div><div class="stat-name" style="color:var(--success);font-weight:800">${winner}</div></div></div></div></div>`;
+  });
+  el.resultsSection.classList.remove("hidden");
+  showAlert("adminMsg", "✓ Results tallied with runner-up details", "success");
+  logAudit("RESULTS_TALLIED", `Total votes: ${state.board.length}`);
+};
+
+el.auditBtn.onclick = () => {
+  el.auditLog.classList.toggle("hidden");
+  if (!el.auditLog.classList.contains("hidden")) {
+    el.auditContent.innerHTML = "";
+    if (state.auditLog.length === 0) { el.auditContent.innerHTML = '<div class="muted">No events</div>'; return; }
+    state.auditLog.forEach(log => {
+      el.auditContent.innerHTML += `<div class="item mono" style="font-size:12px"><div><strong>${log.timestamp}</strong></div><div style="color:var(--primary);margin-top:4px;font-weight:700">${log.action}</div><div class="muted">${log.details}</div></div>`;
+    });
+  }
+};
+
+el.resetBtn.onclick = () => {
+  if (confirm("⚠️ Reset system?")) {
+    if (confirm("⚠️ This cannot be undone!")) {
+      state.electionOpen = true;
+      state.issued.clear();
+      state.spent.clear();
+      state.board = [];
+      state.auditLog = [];
+      el.studentId.value = "";
+      el.ballot.classList.add("hidden");
+      el.receipt.classList.add("hidden");
+      el.boardList.innerHTML = "";
+      el.results.innerHTML = "";
+      el.resultsSection.classList.add("hidden");
+      el.auditContent.innerHTML = "";
+      el.auditLog.classList.add("hidden");
+      showAlert("adminMsg", "✓ System reset", "success");
+      logAudit("SYSTEM_RESET", "All data cleared");
+      updateStatusBox();
+      updateStats();
+      renderBoard();
+    }
+  }
+};
+
+updateStatusBox();
+updateStats();
+renderBoard();
+</script>
+
+</body></html>
